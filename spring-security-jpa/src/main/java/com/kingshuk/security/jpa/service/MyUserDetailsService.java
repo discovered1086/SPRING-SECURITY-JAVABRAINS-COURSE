@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service("myUserDetailsService")
 @AllArgsConstructor
@@ -39,12 +40,11 @@ public class MyUserDetailsService implements UserDetailsService {
                 .userName(profile.getUserName())
                 .active(profile.isActive())
                 .password(profile.getPassword())
-                .roles(new HashSet<>())
                 .build();
 
-        profile.getRoles().forEach(role -> {
-            myUserDetails.getRoles().add(new SimpleGrantedAuthority(role.getRole()));
-        });
+        myUserDetails.setRoles(profile.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority(role.getRole()))
+        .collect(Collectors.toSet()));
 
         return myUserDetails;
     }
