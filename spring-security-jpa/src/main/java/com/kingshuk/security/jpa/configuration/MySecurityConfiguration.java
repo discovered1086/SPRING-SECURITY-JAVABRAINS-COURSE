@@ -30,8 +30,12 @@ public class MySecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/users").hasAnyRole("ADMIN", "USER")
                 .antMatchers("/admin").hasRole("ADMIN")
-                .antMatchers("/h2-console", "/").permitAll()
+                .antMatchers("/h2-console/*", "/").permitAll()
                 .and().formLogin();
+
+        http.csrf().disable();
+
+        http.headers().frameOptions().disable();
     }
 
     @Bean

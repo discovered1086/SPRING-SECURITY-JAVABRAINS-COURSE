@@ -1,6 +1,6 @@
 create table user_profile
 (
-    username varchar_ignorecase(50) not null primary key,
+    user_name varchar_ignorecase(50) not null primary key,
     password varchar_ignorecase(50) not null,
     active  boolean not null,
     first_name varchar2(30),
@@ -10,9 +10,9 @@ create table user_profile
 
 create table user_roles
 (
-    username  varchar_ignorecase(50) not null,
+    user_name  varchar_ignorecase(50) not null,
     authority varchar_ignorecase(50) not null,
-    constraint fk_authorities_users foreign key (username) references user_profile (username)
+    constraint fk_authorities_users foreign key (user_name) references user_profile (user_name)
 );
 create
-unique index ix_auth_username on user_roles (username,authority);
+unique index ix_auth_username on user_roles (user_name,authority);
