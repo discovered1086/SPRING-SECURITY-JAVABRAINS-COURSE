@@ -31,14 +31,16 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         final String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         String jwt = null;
+        String userName = null;
 
         //We need to check if the header actually has a token. That's why we check if it starts with 'Bearer'
         if (Objects.nonNull(authorizationHeader) && authorizationHeader.startsWith("Bearer ")) {
             jwt = authorizationHeader.substring(7);
+
+            //Then we use the token to get the username
+            userName = jwtHelper.extractUserName(jwt);
         }
 
-        //Then we use the token to get the username
-        final String userName = jwtHelper.extractUserName(jwt);
 
         //Then we check if the SecurityContextHolder actually has any Authentication object or
         //if not that means this is the first request post-authentication
